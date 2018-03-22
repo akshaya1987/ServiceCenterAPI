@@ -1,0 +1,190 @@
+{
+  "id": "6942dfd3-34ab-4db0-3612-f5a36725e4c7",
+  "name": "Validation_Daily",
+  "values": [
+    {
+      "enabled": true,
+      "key": "PN",
+      "value": "K0Q46A",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "SN",
+      "value": "HP43563488",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "startDate",
+      "value": "2018-01-01",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "endDate",
+      "value": "2018-02-22T09:11:55Z",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "deviceID",
+      "value": "a2f2d282-7978-4ad0-a127-2913cc7efe66",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "baseURL",
+      "value": "https://daily.gsbprint.net",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "tokenAAA",
+      "value": "foccj79bhrk7c440b7g3pnv2c8",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "version",
+      "value": "v3",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "SmsHost",
+      "value": "{{baseURL}}",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "notificationTimestamp",
+      "value": "2018-02-22T09:11:55Z",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "pspContext",
+      "value": "c31adbf1-7efe-4f06-9f4d-4c3b396b9691",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "resellerContext",
+      "value": "300fd3e6-4856-45b3-b475-002e0bc1b88f",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "deviceToken",
+      "value": "tt6btddbps6gsii7046li3bn3s",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "userID",
+      "value": "eaad0b18-460a-4bc9-a5cc-2b4b52abc12b",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "offset",
+      "value": "0",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "deviceCreationDate",
+      "value": "2/19/2018, 1:15:50 PM",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "organizationName",
+      "value": "HP Inc. LFP - PSP",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "limit",
+      "value": "1000",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "contextID",
+      "value": "c31adbf1-7efe-4f06-9f4d-4c3b396b9691",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "currentTimeStampDataConnector",
+      "value": "2018-02-22T10:16:03+01:00",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "devicesByDevices",
+      "value": "173",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "devicesByShares",
+      "value": "173",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "customersByDevices",
+      "value": "70",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "customersByShares",
+      "value": "87",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "customerOrgs",
+      "value": "",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "queryOrgID",
+      "value": "0165a3b0-394a-4c1c-8d43-e152eb0a4f2b",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "devicesListByDevicesString",
+      "value": "",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "outputCSV",
+      "value": "0443b2e8-1e66-4712-96e9-f600f208f2fe   6   c673b6f5-f442-4ef3-b42c-11f58725ce94\\n",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "resellerUser",
+      "value": "reselleraccount",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "resellerPw",
+      "value": "admin123*",
+      "type": "text"
+    }
+  ],
+  "timestamp": 1519407851146,
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2018-02-23T17:44:48.797Z",
+  "_postman_exported_using": "Postman/5.5.3"
+}

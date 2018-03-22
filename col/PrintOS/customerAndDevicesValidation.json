@@ -1,0 +1,364 @@
+{
+	"info": {
+		"name": "_export",
+		"_postman_id": "8183335a-8685-93d1-3ae8-772c0b67b4cd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "VerifyCustomersAndDevices",
+			"description": "",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"postman.setEnvironmentVariable(\"tokenAAA\", postman.getResponseCookie(\"Indigo-SmS-Auth-Token\").value);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\":\"{{resellerUser}}\",\n    \"password\":\"{{resellerPw}}\"\n}\n"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/aaa/{{version}}/users/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"aaa",
+								"{{version}}",
+								"users",
+								"login"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Devices",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ebd940e6-fc2e-49f7-9f8f-6ae2c250fc77",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var devicesList = [];",
+									"",
+									"var devicesInContexts = jsonData.devicesWithContext;",
+									"var found = false;",
+									"var totalDevices = 0;",
+									"var totalCustomers = 0;",
+									"devicesInContexts.forEach(function(context){",
+									"    // Iterating through all the customers",
+									"    totalCustomers = totalCustomers + 1;",
+									"    var devices = context.devices;",
+									"    ",
+									"    devices.forEach(function(device){",
+									"        // Iterating through all the devices",
+									"        totalDevices = totalDevices +1;",
+									"        devicesList.push(device.deviceId);",
+									"    });",
+									"    ",
+									"});",
+									"",
+									"// Store the devices",
+									"// console.log(\"Ammount of printers: \"+totalDevices);",
+									"pm.environment.set(\"devicesByDevices\",totalDevices);",
+									"",
+									"",
+									"// Store the devices",
+									"// console.log(\"Ammount of customers: \"+totalCustomers);",
+									"pm.environment.set(\"customersByDevices\",totalCustomers);",
+									"pm.environment.set(\"devicesListByDevicesString\", devicesList.toString());",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{SmsHost}}/api/aaa/{{version}}/organizations/devices/v2?limit=1000",
+							"host": [
+								"{{SmsHost}}"
+							],
+							"path": [
+								"api",
+								"aaa",
+								"{{version}}",
+								"organizations",
+								"devices",
+								"v2"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1000",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get granted shares",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fde93820-0859-4fa5-b37e-f719b14c8208",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"var customers = jsonData.organizations;",
+									"var totalCustomers = 0;",
+									"var customersOrgIDsArray = [];",
+									"customers.forEach(function(organization){",
+									"    // Iterating through all the customers",
+									"    totalCustomers = totalCustomers + 1;",
+									"    customersOrgIDsArray.push(organization.organizationId);",
+									"});",
+									"var customersOrgIDsArrayString = customersOrgIDsArray.toString();",
+									"// console.log(\"Ammount of customers: \"+totalCustomers);",
+									"pm.environment.set(\"customersByShares\",totalCustomers);",
+									"pm.environment.set(\"customerOrgs\",customersOrgIDsArrayString );",
+									"pm.environment.set(\"devicesByShares\", 0);",
+									"pm.environment.set(\"outputCSV\", \"\");",
+									"var customersByDevices = pm.environment.get(\"customersByDevices\");",
+									"var customersByShares = pm.environment.get(\"customersByShares\");",
+									"pm.test(\"Customers sharing devices (\"+customersByDevices+\") to be less than or equal to the total of customers sharing info (\"+customersByShares+\")\", function() {",
+									"    pm.expect(parseInt(customersByDevices)).to.be.lte(parseInt(customersByShares));",
+									"});",
+									"var previousAmmount = pm.globals.get(\"totalCustomers\");",
+									"pm.test(\"We are maintaining the same value for customers (\"+previousAmmount+\")\", function() {",
+									"    pm.expect(parseInt(customersByDevices)).to.be.equal(parseInt(previousAmmount));",
+									"});",
+									"pm.globals.set(\"totalCustomers\", customersByDevices);",
+									"console.log(\"Setting up new global value for customers: \"+customersByDevices);",
+									"",
+									"pm.environment.unset(\"variable_key\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "Indigo-SmS-Auth-Token={{tokenAAA}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{SmsHost}}/api/aaa/{{version}}/organizations/grantedshares/?limit=1000",
+							"host": [
+								"{{SmsHost}}"
+							],
+							"path": [
+								"api",
+								"aaa",
+								"{{version}}",
+								"organizations",
+								"grantedshares",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1000",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "IterateThroughDevices",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1ee7c4cd-de52-4f21-acf0-315a9bbc38b8",
+								"type": "text/javascript",
+								"exec": [
+									"// Recovering the array in string form ",
+									"var customerListString = pm.environment.get(\"customerOrgs\");",
+									"",
+									"//Convert it back to array",
+									"var customerOrgs = customerListString.split(\",\");",
+									"",
+									"// Do our thing with the orgs to reduce",
+									"// console.log(\"Ammount of orgs before pop = \"+customerOrgs.length);",
+									"var orgID = customerOrgs.pop();",
+									"// console.log(\"Ammount of orgs after pop = \"+customerOrgs.length);",
+									"// console.log(\"OrgID Poped = \"+orgID);",
+									"",
+									"",
+									"// Convert array to string again",
+									"customerListString = customerOrgs.toString();",
+									"",
+									"// Save back the environment variables",
+									"pm.environment.set(\"customerOrgs\", customerListString);",
+									"pm.environment.set(\"queryOrgID\", orgID);"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6233b8b5-c29d-4913-823f-6de6d595b4e4",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"var outputString = pm.environment.get(\"outputCSV\");",
+									"// Recovering the array in string form ",
+									"var customerListString = pm.environment.get(\"customerOrgs\");",
+									"var devicesListByDeviceString = pm.environment.get(\"devicesListByDevicesString\");",
+									"// console.log(customerListString);",
+									"",
+									"//Convert it back to array",
+									"var customerOrgs = customerListString.split(\",\");",
+									"var devicesList = devicesListByDeviceString.split(\",\");",
+									"// console.log(customerOrgs);",
+									"console.log(devicesList.length+\"/\"+pm.environment.get(\"devicesByDevices\"));",
+									"",
+									"var orgId = pm.environment.get(\"queryOrgID\");",
+									"",
+									"var sumDevices = parseInt(pm.environment.get(\"devicesByShares\"));",
+									"",
+									"var devices = jsonData.devices;",
+									"var devicesForThisCustomer = devices.length;",
+									"var separator = \"   \";",
+									"",
+									"devices.forEach(function(device){",
+									"    // console.log(\"Before filtering, i have \"+devicesList.length+\" Devices\");",
+									"    var filteredList = devicesList.filter(function(entry){",
+									"        return entry != device.deviceId;",
+									"    });",
+									"    devicesList = filteredList;",
+									"    // console.log(\"After filtering, i have \"+devicesList.length+\" Devices\");",
+									"    if (devicesList.length === 0) {",
+									"        // console.log(\"Reached the bottom of the list, logging Device ID\");",
+									"        outputString = outputString + orgId + separator + devicesForThisCustomer+ separator + device.deviceId+\"\\\\n\";",
+									"    }",
+									"});",
+									"",
+									"",
+									"// console.log(\"Devices in this customer = \"+devicesForThisCustomer);",
+									"",
+									"sumDevices = sumDevices + devicesForThisCustomer;",
+									"",
+									"pm.environment.set(\"devicesByShares\", sumDevices);",
+									"",
+									"// Save device List back to the environment",
+									"pm.environment.set(\"devicesListByDevicesString\",devicesList.toString());",
+									"",
+									"pm.environment.set(\"outputCSV\", outputString);",
+									"// Loop over the items in the customerListString",
+									"if ((customerOrgs.length > 0) && (customerOrgs[0] !== \"\") ) {",
+									"    postman.setNextRequest(\"IterateThroughDevices\");",
+									"} else {",
+									"    // Here we exit the loop of requests, so here we have to test the values obtained",
+									"    postman.setNextRequest(null);",
+									"    ",
+									"    //get the final values",
+									"    var customersByDevices = pm.environment.get(\"customersByDevices\");",
+									"    var customersByShares = pm.environment.get(\"customersByShares\");",
+									"    var devicesByShares = pm.environment.get(\"devicesByShares\");",
+									"    var devicesByDevices = pm.environment.get(\"devicesByDevices\");",
+									"    // Output all the relevant info because this is the last run",
+									"    pm.test(\"Devices shared to the reseller (\"+devicesByShares+\") equal to devices obtained byDevices call (\"+devicesByDevices+\")\", function() {",
+									"        pm.expect(parseInt(devicesByDevices)).to.be.equal(parseInt(devicesByShares));",
+									"    });",
+									"    var previousAmmount = pm.globals.get(\"totalDevices\");",
+									"    pm.test(\"We are maintaining the same value for devices (\"+previousAmmount+\")\", function() {",
+									"        pm.expect(parseInt(devicesByDevices)).to.be.equal(parseInt(previousAmmount));",
+									"    });",
+									"    pm.globals.set(\"totalDevices\", devicesByDevices);",
+									"",
+									"    ",
+									"    console.log(\"Extra Devices not in original list = \"+devicesList);",
+									"    console.log(\"Final ammount of customers sharing with us = \"+pm.environment.get(\"customersByShares\"));",
+									"    console.log(\"Final number of devices shared with us = \"+pm.environment.get(\"devicesByDevices\")+\"/\"+pm.environment.get(\"devicesByShares\"));",
+									"    console.log(\"OrganizationID\"+separator+\"AmmountOfDevices\"+separator+\"DeviceID\"+\"\\\\n\"+pm.environment.get(\"outputCSV\"));",
+									"}",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "Indigo-SmS-Auth-Token={{tokenAAA}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{SmsHost}}/api/aaa/{{version}}/organizations/grantedshares/{{queryOrgID}}/devices/?limit=1000",
+							"host": [
+								"{{SmsHost}}"
+							],
+							"path": [
+								"api",
+								"aaa",
+								"{{version}}",
+								"organizations",
+								"grantedshares",
+								"{{queryOrgID}}",
+								"devices",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1000",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

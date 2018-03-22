@@ -1,0 +1,137 @@
+{
+	"info": {
+		"name": "SEALS_API Collection Exporter",
+		"_postman_id": "7ea238bc-38ee-0fc3-99aa-ac83d49fa051",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Solution exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6248cee-d530-4100-958b-5952e81047e6",
+						"type": "text/javascript",
+						"exec": [
+							"// Parse URL for query parameters",
+							"var paramsString = request.url.split('?')[1];",
+							"var eachParamArray = paramsString.split('&');",
+							"var params = {};",
+							"eachParamArray.forEach((param) => {",
+							"    var key = param.split('=')[0];",
+							"    var value = param.split('=')[1];",
+							"    Object.assign(params, {[key]: value});",
+							"});",
+							"//console.log(params); // this is object with request params as key value pairs",
+							"var requestCode = params.eventCode;",
+							"var requestPN = params.PN",
+							"if (responseCode.code === 200) {",
+							"    var jsonData = JSON.parse(responseBody);",
+							"",
+							"    if (jsonData.solutionJson ){",
+							"        console.log(jsonData);",
+							"            tests[\"Solution Found for: \" + requestPN + \" - \"+ data.SystemErrorCode]= true;",
+							"    ",
+							"    } else {",
+							"        tests[\"Solution Found for: \" + requestPN + \" - \"+ data.SystemErrorCode]= false;",
+							"    }",
+							"",
+							"} else {",
+							"    tests[\"HTTPStatus OK?-> (\" + requestPN + \" - \"+ data.SystemErrorCode+\")\"] = false;",
+							"",
+							"}",
+							"",
+							"// var eventCode = request.headers.eventCode;",
+							"// console.log(request.headers);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "72907185-dbe9-40eb-a273-a6ef0006e09f",
+						"type": "text/javascript",
+						"exec": [
+							"var timestamp2 = new Date().toISOString();",
+							"var timestamp1 = timestamp2.substring(0, 19)+\"Z\";",
+							"postman.setEnvironmentVariable(\"notificationTimestamp\", timestamp1);",
+							"var d = new Date();",
+							"var milliseconds = d.getTime();",
+							"// var milliseconds = 1508479709185",
+							"// Four hours window in milliseconds 4*60*60*1000",
+							"var step = 14400000;",
+							"var secret = postman.getEnvironmentVariable(\"SEALS_AUTH_SECRET\");",
+							"// var secret = \"pepper\"",
+							"var t = parseInt(milliseconds/step);",
+							"// console.log(t);",
+							"var payload = t.toString()+secret;",
+							"// console.log(payload);",
+							"var shaEncoded = CryptoJS.SHA256(payload).toString();",
+							"// console.log(shaEncoded);",
+							"postman.setEnvironmentVariable(\"SEALS_AUTH_TOKEN\", shaEncoded);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "jmKUZ7mePwqKXpU2hB2MATfPYMSjhu6ryrKUYzfG",
+						"disabled": true
+					},
+					{
+						"key": "Token",
+						"value": "{{SEALS_AUTH_TOKEN}}"
+					},
+					{
+						"key": "Client-ID",
+						"value": "{{SEALS_AUTH_CLIENTID}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"grant_type\": \"password\",\r\n\"client_id\": \"elfpsolutions.admin@groups.hp.com\",\r\n\"username\": \"lfpsolutions.admin@groups.hp.com\",\r\n\"password\": \"r*6NPyCJogC]\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{baseURL}}/GetSolution?PN={{PN}}&eventCode={{SystemErrorCode}}&SN={{SN}}&detectionDate=2017-04-24T09:45:29Z",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"GetSolution"
+					],
+					"query": [
+						{
+							"key": "PN",
+							"value": "{{PN}}",
+							"equals": true
+						},
+						{
+							"key": "eventCode",
+							"value": "{{SystemErrorCode}}",
+							"equals": true
+						},
+						{
+							"key": "SN",
+							"value": "{{SN}}",
+							"equals": true
+						},
+						{
+							"key": "detectionDate",
+							"value": "2017-04-24T09:45:29Z",
+							"equals": true
+						}
+					]
+				},
+				"description": "Something is not right"
+			},
+			"response": []
+		}
+	]
+}

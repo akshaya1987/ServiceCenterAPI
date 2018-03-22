@@ -1,0 +1,82 @@
+{
+  "id": "6891a8ea-e755-1e6f-5b47-8a90db29c4ec",
+  "name": "SEALS_Prod Migration",
+  "values": [
+    {
+      "enabled": true,
+      "key": "baseURL",
+      "value": "https://seals-pro.hpcloud.hp.com/SEALSRestAPI",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "SN",
+      "value": "SG73432001",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "PN",
+      "value": "M0P44B",
+      "type": "text"
+    },
+    {
+      "enabled": false,
+      "key": "Status",
+      "value": "TRUE",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "startDate",
+      "value": "2017-11-01",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "endDate",
+      "value": "2017-12-13",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "notificationTimestamp",
+      "value": "2017-12-14T14:53:59Z",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "SE",
+      "value": "0010-0116-0001",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "SystemErrorCode",
+      "value": "{{SE}}",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "SEALS_AUTH_TOKEN",
+      "value": "9ab9ba390facc19ba8cb259819fca4e2ca0f49e250e8935c5f71c4fe210fc9fa",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "SEALS_AUTH_SECRET",
+      "value": "xuVLI!G*0RgI&B2nykYv7phzRA!N^AfI",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "SEALS_AUTH_CLIENTID",
+      "value": "PrintOS",
+      "type": "text"
+    }
+  ],
+  "timestamp": 1513341170829,
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2017-12-15T12:33:03.974Z",
+  "_postman_exported_using": "Postman/5.5.0"
+}

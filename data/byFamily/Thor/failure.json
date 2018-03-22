@@ -1,0 +1,12 @@
+[
+	{
+		"PN": "C1234A",
+		"SN": "HP20170724T",
+		"SystemErrorCode": "01.01.00:01"
+	},
+	{
+		"PN": "CZ056A",
+		"SN": "HP20170724T",
+		"SystemErrorCode": "01.02.01:02"
+	}
+]
